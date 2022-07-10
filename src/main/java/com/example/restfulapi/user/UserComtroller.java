@@ -16,14 +16,19 @@ public class UserComtroller {
     }
 
     @GetMapping("/users")
-    public List<User> reetrieveAllUsers(){
+    public List<User> retrieveAllUsers(){
         return service.findAll();
     }
 
     //GET /users/1 or /users/10
     @GetMapping("/users/{id}")
     public User retrieveUser(@PathVariable int id){
-        return service.findOne(id);
+        User user = service.findOne(id); //ctrl + alt + v
+
+        if(user == null){
+            throw new UserNotFoundException(String.format("ID [%s] not found", id));
+        }
+        return user;
     }
 
     @PostMapping("/users")
